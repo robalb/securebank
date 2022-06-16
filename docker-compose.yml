@@ -1,0 +1,39 @@
+services:
+
+  #Flask service
+  flask:
+    build:
+      context: ./docker/api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./api/app:/code/app
+    ports:
+      - 8080:8080
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+    environment:
+      #database configuration
+      MARIADB_HOST: mariadb
+      MARIADB_USER: ${DB_LOWP_USER}
+      MARIADB_PASSWORD: ${DB_LOWP_USER_PASSWORD}
+      MARIADB_DATABASE: ${DB_DBNAME}
+
+  #MariaDb Service
+  mariadb:
+    image: bitnami/mariadb:latest
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_USER: ${DB_LOWP_USER}
+      MARIADB_PASSWORD: ${DB_LOWP_USER_PASSWORD}
+      MARIADB_DATABASE: ${DB_DBNAME}
+      MARIADB_PORT_NUMBER: 3306
+    volumes:
+      - ./docker/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - bankdb:/bitnami/mariadb/data
+
+# Volumes
+volumes:
+  bankdb:
