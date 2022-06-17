@@ -122,6 +122,8 @@ async def get_account_info(accountid: constr(min_length=20, max_length=20)):
             #get account info
             cur.execute("SELECT name, surname, balance FROM accounts WHERE id=?", (accountid,))
             account = cur.fetchone()
+            if account is None:
+                raise HTTPException(status_code=400, detail="invalid_id")
             #get transactions info
             cur.execute("""
                     SELECT id, sender_id, receiver_id, UNIX_TIMESTAMP(time) AS time, amount, description FROM transfers
@@ -129,6 +131,8 @@ async def get_account_info(accountid: constr(min_length=20, max_length=20)):
                     ORDER BY time ASC LIMIT 500
                     """, (accountid, accountid))
             transactions = cur.fetchall()
+    except HTTPException as e:
+      raise e
     except Exception as e:
         logger.error(e)
         raise HTTPException(status_code=500, detail="transaction_failed")
