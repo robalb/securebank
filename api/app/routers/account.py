@@ -5,10 +5,12 @@ from pydantic import BaseModel, constr
 from typing import Union
 import secrets
 from app.database import Cursor
+from app.procedures import procedure_change_balance, procedure_log_transfer, procedure_edit_account_info
 from argon2 import PasswordHasher
 import uuid
 
 router = APIRouter(prefix='/api/account', tags=['account'])
+
 
 
 @router.get("/")
@@ -59,22 +61,6 @@ async def delete_account(id: str):
     return {"success": True}
 
 
-def procedure_change_balance(cur, account: str, amount: int):
-    cur.execute("""
-            UPDATE accounts
-            SET balance = balance + ?
-            WHERE id = ?
-            """, (amount, account) )
-
-def procedure_log_transfer(cur, sender: str, receiver: str, amount: int, description: str = ""):
-    transactionid = str(uuid.uuid4())
-    cur.execute("""
-            INSERT INTO transfers
-            (id, sender_id, receiver_id, amount, description) VALUES
-            (?,  ?,      ?,        ?,      ?)
-            """, (transactionid, sender, receiver, amount, description) )
-    return transactionid
-
 class PaymentAmount(BaseModel):
     amount: int
 
@@ -98,10 +84,10 @@ async def transfer_cash(accountid: constr(min_length=20, max_length=20), amount:
             #handle uid not found
             if ret is None:
                 raise HTTPException(status_code=400, detail="invalid_id")
-            #handle not enough balance for this withdrawal
+            #handle insufficient balance for this withdrawal
             elif amount.amount < 0 and (ret['balance'] + amount.amount) < 0:
                 raise HTTPException(status_code=400, detail="insufficient_credit")
-            # calculate new balance
+            # calculate new balance - for presentation purpose only, may be subject to race conditions
             balance = ret['balance'] + amount.amount
             # update the new balance and log the transaction
             procedure_change_balance(cur, accountid, amount.amount)
@@ -146,23 +132,9 @@ class EditAccountInfo(BaseModel):
     name: Union[str, None] = None
     surname: Union[str, None] = None
 
-def procedure_edit_account_info(cur, accountid, name, surname):
-    try:
-        rowcount = 0
-        if name is not None:
-            cur.execute("UPDATE accounts SET name=? where id= ?", (name, accountid))
-            rowcount += cur.rowcount
-        if surname is not None:
-            cur.execute("UPDATE accounts SET surname=? where id= ?", (surname, accountid))
-            rowcount += cur.rowcount
-    except Exception as e:
-        logger.error(e)
-        raise HTTPException(status_code=500, detail="transaction_failed")
-    if rowcount == 0:
-        raise HTTPException(status_code=400, detail="invalid_id_or_repeated_operation")
 
 @router.put("/{accountid}")
-async def edit_account_info(accountid: constr(min_length=20, max_length=20), newdata: EditAccountInfo):
+async def edit_account_info_all(accountid: constr(min_length=20, max_length=20), newdata: EditAccountInfo):
     if newdata.name is None or newdata.surname is None:
         raise HTTPException(status_code=422, detail=[{"msg":"name and surname required"}])
     with Cursor() as cur:
