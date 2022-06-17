@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import JSONResponse
 from fastapi.logger import logger
 from pydantic import BaseModel, constr
 from typing import Union
@@ -14,7 +15,7 @@ router = APIRouter(prefix='/api/account')
 async def get_all_accounts():
     with Cursor() as cur:
         try:
-            cur.execute(""" SELECT id, name, surname FROM accounts LIMIT 200 """ )
+            cur.execute("SELECT id, name, surname FROM accounts LIMIT 200" )
         except:
             raise HTTPException(status_code=500, detail="transaction_failed")
         return cur.fetchall()
@@ -50,9 +51,7 @@ async def create_account(account: NewAccount):
 async def delete_account(id: str):
     with Cursor() as cur:
         try:
-            cur.execute("""
-                    DELETE from accounts
-                    WHERE id = ? """, (id,) )
+            cur.execute("DELETE from accounts WHERE id = ? ", (id,) )
         except:
             raise HTTPException(status_code=500, detail="transaction_failed")
         if cur.rowcount == 0:
@@ -77,12 +76,11 @@ def procedure_log_transfer(cur, sender: str, receiver: str, amount: int, descrip
     return transactionid
 
 class PaymentAmount(BaseModel):
-    # https://pydantic-docs.helpmanual.io/usage/types/#arguments-to-conint
     amount: int
 
 @router.post("/{accountid}")
 async def transfer_to_account(accountid: constr(min_length=20, max_length=20), amount: PaymentAmount):
-    #TODO: this input validation should be handled by pydantic
+    # raise an error on amout = 0
     if amount.amount == 0:
         raise HTTPException(status_code=422, detail=[{"msg":"invalid amount"}])
 
@@ -101,19 +99,45 @@ async def transfer_to_account(accountid: constr(min_length=20, max_length=20), a
             if ret is None:
                 raise HTTPException(status_code=400, detail="invalid_id")
             #handle not enough balance for this withdrawal
-            if amount.amount < 0:
-                logger.error("noenough")
+            elif amount.amount < 0 and (ret['balance'] + amount.amount) < 0:
                 raise HTTPException(status_code=400, detail="insufficient_credit")
             # calculate new balance
             balance = ret['balance'] + amount.amount
             # update the new balance and log the transaction
             procedure_change_balance(cur, accountid, amount.amount)
-            procedure_log_transfer(cur, None, accountid, amount.amount, description)
+            uid = procedure_log_transfer(cur, None, accountid, amount.amount, description)
     except HTTPException as e:
         raise e
     except Exception as e:
         logger.error(e)
         raise HTTPException(status_code=500, detail="transaction_failed")
-    return {"accountid": accountid, "balance":balance}
+    return {"transaction": uid, "balance":balance}
+
+
+
+
+@router.get("/{accountid}")
+async def get_account_info(accountid: constr(min_length=20, max_length=20)):
+    try:
+        with Cursor() as cur:
+            #get account info
+            cur.execute("SELECT name, surname, balance FROM accounts WHERE id=?", (accountid,))
+            account = cur.fetchone()
+            #get transactions info
+            cur.execute("""
+                    SELECT id, sender_id, receiver_id, UNIX_TIMESTAMP(time) as time, amount, description from transfers
+                    WHERE sender_id = ? or receiver_id = ?
+                    ORDER BY time ASC LIMIT 500
+                    """, (accountid, accountid))
+            transactions = cur.fetchall()
+    except Exception as e:
+        logger.error(e)
+        raise HTTPException(status_code=500, detail="transaction_failed")
+    # prepare response data
+    responseJSON = account | {"transactions": transactions}
+    responseHeaders = {"X-Sistema-Bancario": f"{account['name']};{account['surname']}"}
+    return JSONResponse(content=responseJSON, headers=responseHeaders)
+
+
 
 
