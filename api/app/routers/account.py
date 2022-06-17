@@ -79,7 +79,7 @@ class PaymentAmount(BaseModel):
     amount: int
 
 @router.post("/{accountid}")
-async def transfer_to_account(accountid: constr(min_length=20, max_length=20), amount: PaymentAmount):
+async def transfer_cash(accountid: constr(min_length=20, max_length=20), amount: PaymentAmount):
     # raise an error on amout = 0
     if amount.amount == 0:
         raise HTTPException(status_code=422, detail=[{"msg":"invalid amount"}])
@@ -167,7 +167,7 @@ async def edit_account_info(accountid: constr(min_length=20, max_length=20), new
 
 
 @router.patch("/{accountid}")
-async def edit_account_info(accountid: constr(min_length=20, max_length=20), newdata: EditAccountInfo):
+async def edit_account_info_partial(accountid: constr(min_length=20, max_length=20), newdata: EditAccountInfo):
     if newdata.name is None and newdata.surname is None:
         raise HTTPException(status_code=422, detail=[{"msg":"name or surname required"}])
     with Cursor() as cur:

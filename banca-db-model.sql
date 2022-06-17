@@ -52,8 +52,8 @@ CREATE TABLE IF NOT EXISTS `securebank`.`transfers` (
   `description` VARCHAR(45) NULL,
   `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  INDEX `sender_id_idx` (`sender_id` ASC) VISIBLE,
-  INDEX `receiver_id_idx` (`receiver_id` ASC) VISIBLE,
+  INDEX `sender_id_idx` (`sender_id` ASC) ,
+  INDEX `receiver_id_idx` (`receiver_id` ASC) ,
   CONSTRAINT `sender_id`
     FOREIGN KEY (`sender_id`)
     REFERENCES `securebank`.`accounts` (`id`)
