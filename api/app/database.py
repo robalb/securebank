@@ -29,12 +29,13 @@ class Cursor:
         return this.cur
 
     def __exit__(this, exc, value, tb):
-        #commit logic. mariadb has autocommit disabled by default
-        # if this.commit:
-        #     if exc:
-        #         this.conn.rollback()
-        #     else:
-        #         this.conn.commit()
+        #commit logic. Handle rollbacks in case of exceptions
+        if not this.autocommit:
+            if exc:
+                logger.error("ERROR: transaction rollback")
+                this.conn.rollback()
+            else:
+                this.conn.commit()
         this.cur.close()
         this.conn.close()
 

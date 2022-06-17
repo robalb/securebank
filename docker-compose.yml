@@ -1,7 +1,7 @@
 services:
 
-  #Flask service
-  flask:
+  #FastAPI Service
+  fastapi:
     build:
       context: ./docker/api
       dockerfile: Dockerfile.dev
