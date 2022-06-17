@@ -94,11 +94,26 @@ async def transfer_to_account(accountid: constr(min_length=20, max_length=20), a
     #so that exceptions during the transaction will cause a rollback
     try:
         with Cursor(False) as cur:
+            #get current balance
+            cur.execute("SELECT balance FROM accounts WHERE id=?", (accountid,))
+            ret = cur.fetchone()
+            #handle uid not found
+            if ret is None:
+                raise HTTPException(status_code=400, detail="invalid_id")
+            #handle not enough balance for this withdrawal
+            if amount.amount < 0:
+                logger.error("noenough")
+                raise HTTPException(status_code=400, detail="insufficient_credit")
+            # calculate new balance
+            balance = ret['balance'] + amount.amount
+            # update the new balance and log the transaction
             procedure_change_balance(cur, accountid, amount.amount)
             procedure_log_transfer(cur, None, accountid, amount.amount, description)
+    except HTTPException as e:
+        raise e
     except Exception as e:
         logger.error(e)
         raise HTTPException(status_code=500, detail="transaction_failed")
-    return {"accountid": accountid}
+    return {"accountid": accountid, "balance":balance}
 
 
