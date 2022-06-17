@@ -15,10 +15,6 @@ class Transfer(BaseModel):
 
 @router.post("/")
 async def transfer(t: Transfer):
-  # raise an error on amout = 0
-  if t.amount == 0 and False:
-      raise HTTPException(status_code=422, detail=[{"msg":"invalid amount"}])
-
   #attempt the transaction with autocommit disabled,
   #so that exceptions during the transaction will cause a rollback
   try:

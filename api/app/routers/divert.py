@@ -14,4 +14,17 @@ class Divert(BaseModel):
 
 @router.post("/")
 async def divert(d: Divert):
-  return d
+  #attempt the transaction with autocommit disabled,
+  #so that exceptions during the transaction will cause a rollback
+  try:
+      with Cursor(False) as cur:
+          #get informations associated to uuid
+          cur.execute("SELECT * FROM transfers WHERE id=?", (str(d.uid),))
+          res = cur.fetchone()
+          logger.error(res)
+  except HTTPException as e:
+      raise e
+  except Exception as e:
+      logger.error(e)
+      raise HTTPException(status_code=500, detail="transaction_failed")
+  # calculate new balance - for presentation purpose only, may be subject to race conditions
