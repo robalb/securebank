@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.logger import logger
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, constr
 from typing import Union
 import secrets
 from app.database import Cursor
@@ -76,13 +76,12 @@ def procedure_log_transfer(cur, sender: str, receiver: str, amount: int, descrip
             """, (transactionid, sender, receiver, amount, description) )
     return transactionid
 
-
 class PaymentAmount(BaseModel):
     # https://pydantic-docs.helpmanual.io/usage/types/#arguments-to-conint
     amount: int
 
 @router.post("/{accountid}")
-async def transfer_to_account(accountid: str, amount: PaymentAmount):
+async def transfer_to_account(accountid: constr(min_length=20, max_length=20), amount: PaymentAmount):
     #TODO: this input validation should be handled by pydantic
     if amount.amount == 0:
         raise HTTPException(status_code=422, detail=[{"msg":"invalid amount"}])
@@ -93,11 +92,13 @@ async def transfer_to_account(accountid: str, amount: PaymentAmount):
         description = "direct_withdrawal"
     #attempt the transaction with autocommit disabled,
     #so that exceptions during the transaction will cause a rollback
+    try:
         with Cursor(False) as cur:
             procedure_change_balance(cur, accountid, amount.amount)
             procedure_log_transfer(cur, None, accountid, amount.amount, description)
-            #cur.execute("SELECT balance FROM accounts WHERE id = ?", (accountid,))
-            # balance = cur.fetchone()
-    return {"id": accountid}
+    except Exception as e:
+        logger.error(e)
+        raise HTTPException(status_code=500, detail="transaction_failed")
+    return {"accountid": accountid}
 
 
