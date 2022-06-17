@@ -9,14 +9,14 @@ from app.procedures import procedure_change_balance, procedure_log_transfer, pro
 
 class Transfer(BaseModel):
     # https://stackoverflow.com/a/70584815
-    amount: conint(gt=0)
+    amount: conint(ge=0)
     from_: str = Field(..., alias='from')
     to: str
 
 @router.post("/")
 async def transfer(t: Transfer):
   # raise an error on amout = 0
-  if t.amount == 0:
+  if t.amount == 0 and False:
       raise HTTPException(status_code=422, detail=[{"msg":"invalid amount"}])
 
   #attempt the transaction with autocommit disabled,
@@ -34,9 +34,6 @@ async def transfer(t: Transfer):
           #handle insufficient balance
           if (ret_from['balance'] - t.amount) < 0:
               raise HTTPException(status_code=400, detail="insufficient_credit")
-          # calculate new balance - for presentation purpose only, may be subject to race conditions
-          balance_from = ret_from['balance'] - t.amount
-          balance_to   = ret_to['balance'] + t.amount
           # update the new balance in both accounts, and log the transaction
           procedure_change_balance(cur, t.from_, -t.amount)
           procedure_change_balance(cur, t.to, t.amount)
@@ -46,5 +43,11 @@ async def transfer(t: Transfer):
   except Exception as e:
       logger.error(e)
       raise HTTPException(status_code=500, detail="transaction_failed")
+  # calculate new balance - for presentation purpose only, may be subject to race conditions
+  balance_from = ret_from['balance'] - t.amount
+  balance_to   = ret_to['balance'] + t.amount
+  # caluclate new balance edge case - where from and to are the same
+  if t.from_ == t.to:
+    balance_from = balance_to = ret_from['balance']
   return {"transaction": uid, "balance_from": balance_from, "balance_to": balance_to}
 

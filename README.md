@@ -3,3 +3,9 @@ in hash argon2Id. Tuttavia le api non implementano nessun sistema di access cont
 che un sistema di autenticazione avrebbe interferito troppo con le specifiche richieste, e avrebbe
 reso difficile il testing e la valutazione delle api
 
+
+tests:
+deve essere possibile
+
+transfer da se stessi a se stessi con valore zero
+

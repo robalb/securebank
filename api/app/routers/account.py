@@ -67,7 +67,7 @@ class PaymentAmount(BaseModel):
 @router.post("/{accountid}")
 async def transfer_cash(accountid: constr(min_length=20, max_length=20), amount: PaymentAmount):
     # raise an error on amout = 0
-    if amount.amount == 0:
+    if amount.amount == 0 and False:
         raise HTTPException(status_code=422, detail=[{"msg":"invalid amount"}])
 
     #set the transaction description in a machine readable format
@@ -91,7 +91,7 @@ async def transfer_cash(accountid: constr(min_length=20, max_length=20), amount:
             balance = ret['balance'] + amount.amount
             # update the new balance and log the transaction
             procedure_change_balance(cur, accountid, amount.amount)
-            uid = procedure_log_transfer(cur, None, accountid, amount.amount, description)
+            uid = procedure_log_transfer(cur, accountid, None, amount.amount, description)
     except HTTPException as e:
         raise e
     except Exception as e:
