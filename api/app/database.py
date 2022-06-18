@@ -4,7 +4,7 @@ import os
 
 
 
-# configuration used to connect to MariaDB and sqlalchemy
+# configuration used to connect to MariaDB
 config = {
     'host': os.environ['MARIADB_HOST'],
     'port': 3306,

@@ -1,6 +1,8 @@
+""" Database procedures """
 import uuid
 from fastapi import APIRouter, HTTPException
 from fastapi.logger import logger
+
 
 def procedure_change_balance(cur, account: str, amount: int):
     cur.execute("""
@@ -18,6 +20,7 @@ def procedure_log_transfer(cur, sender: str, receiver: str, amount: int, descrip
             (?,  ?,      ?,        ?,      ?)
             """, (transactionid, sender, receiver, amount, description) )
     return transactionid
+
 
 def procedure_edit_account_info(cur, accountid, name, surname):
     try:

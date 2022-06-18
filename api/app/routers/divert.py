@@ -49,7 +49,7 @@ async def divert(d: Divert):
   # calculate new balance - for presentation purpose only, may be subject to race conditions
   balance_from = ret_from['balance'] + ret['amount']
   balance_to   = ret_to['balance'] - ret['amount']
-  # caluclate new balance edge case - where from and to are the same
+  # calculate new balance edge case - where from and to are the same
   if ret['sender_id'] == ret['receiver_id']:
     balance_from = balance_to = ret_from['balance']
   return {"transaction": uid, "balance_from": balance_from, "balance_to": balance_to}
