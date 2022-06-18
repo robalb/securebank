@@ -1,9 +1,9 @@
 <script>
   import Counter from '../components/Counter.svelte'
+  import Layout from '../components/Layout.svelte'
 </script>
 
-<main>
-  <img src={logo} alt="Svelte Logo" />
+<Layout currentPage={"/"}>
   <h1>Hello world!</h1>
 
   <Counter />
@@ -17,7 +17,7 @@
     Check out <a href="https://github.com/sveltejs/kit#readme">SvelteKit</a> for
     the officially supported framework, also powered by Vite!
   </p>
-</main>
+</Layout>
 
 <style>
 
