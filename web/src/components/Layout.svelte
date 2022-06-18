@@ -1,5 +1,6 @@
 <script>
   export let currentPage;
+  import logo from '../assets/chart1-4.png'
   let navOpen = false;
 
   function togglenav(){
@@ -21,7 +22,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-95 ">
         <a class="navbar-brand" href="/">
-            <img src="assets/icons/computer-3.png" alt="Logo"> SecureBank</a>
+            <img src={logo} alt="Logo"> SecureBank</a>
         <button on:click={togglenav} 
           class="navbar-toggler" type="button" aria-controls="navbar-dropdown"
           aria-expanded={navOpen} aria-label="Toggle navigation">
@@ -44,4 +45,13 @@
 <main>
 <slot />
 </main>
+
+<style>
+  /*
+     This component is somehow CURSED: any kind of
+     style i write here won't be applied.
+     It worked during development, then it suddenly broke,
+     and nothing seems to fix it.
+  */
+</style>
 
