@@ -1,6 +1,7 @@
 <script>
   export let currentPage;
   import logo from '../assets/chart1-4.png'
+  import Footer from './Footer.svelte'
   let navOpen = false;
 
   function togglenav(){
@@ -45,6 +46,7 @@
 <main>
 <slot />
 </main>
+<Footer/>
 
 <style>
   /*
