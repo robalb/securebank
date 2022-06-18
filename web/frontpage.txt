@@ -8,3 +8,10 @@ and military-grade encryption. The frontend is protected with more than 3 securi
 
 
 
+https://alexbsoft.github.io/win95.css/
+bootstrap4 +
+view-source:https://alexbsoft.github.io/win95.css/assets/win95.css
+
+https://github.com/themesberg/windows-95-ui-kit
+win95.css +
+bootstrap
