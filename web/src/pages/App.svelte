@@ -1,12 +1,9 @@
 <script>
-  import Counter from '../components/Counter.svelte'
   import Layout from '../components/Layout.svelte'
 </script>
 
 <Layout currentPage={"/"}>
-  <h1>Hello world!</h1>
-
-  <Counter />
+  <h1>Main panel</h1>
 
   <p>
     Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte
