@@ -1,5 +1,4 @@
 <script>
-  import logo from '../assets/svelte.png'
   import Counter from '../components/Counter.svelte'
 </script>
 
