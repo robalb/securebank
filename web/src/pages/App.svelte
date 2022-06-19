@@ -48,6 +48,8 @@
   }
 
   function handleSubmit(e){
+    //remove previous data
+    data = {}
     //bypass native element input validation
     if(!hexInput.validity.valid){
       e.preventDefault()
@@ -56,8 +58,6 @@
     }
     //remove previous input errors
     hexInputError= ''
-    //remove previous data
-    data = {}
     //fetch and display new data
     fetchData(hexInput.value)
   }
@@ -127,7 +127,7 @@
             <th  scope="col">Time</th>
           </tr>
         </thead>
-        {#if data.transactions}
+        {#if data.transactions }
         <tbody>
           {#each data.transactions as t }
             <tr class="{t.first && 'bold'}">
@@ -138,6 +138,13 @@
               <td>{showDate(t.time)}</td>
             </tr>
           {/each}
+          {#if data.transactions.length == 0}
+            <td></td>
+            <td> No transactions yet </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          {/if}
         </tbody>
         {/if}
       </table>

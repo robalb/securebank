@@ -55,6 +55,8 @@
   }
 
   function handleSubmit(e){
+    //remove previous data
+    data = {}
     //bypass native element input validation
     let inputs = [
       fromInput,
@@ -70,8 +72,6 @@
     }
     //remove previous input errors
     displayError= ''
-    //remove previous data
-    data = {}
     //get form input data in json format, using modern DOM apis
     const dataRaw = new FormData(e.target);
     const dataJson = Object.fromEntries(dataRaw.entries());
