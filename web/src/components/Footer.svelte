@@ -3,7 +3,7 @@
   import netscape from '../assets/netscape.png'
   </script>
   <footer>
-  <p>This website requires a browser with JavaScript support</p>
+  <p>This website requires a modern browser with JavaScript support</p>
   <img src={netscape} width=30 alt="msie logo" />
   <img src={explorer} width=30 alt="netscape logo" />
   </footer>

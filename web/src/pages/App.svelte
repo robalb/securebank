@@ -93,8 +93,8 @@
       </form>
 
       {#if hexInputError}
-        <div class="error">
-          <img src={errorImg} aria-role="presentation" />
+        <div class="error" role="alert">
+          <img src={errorImg} role="presentation" alt="error" />
           <p>{hexInputError}</p>
         </div>
       {/if}
@@ -102,7 +102,7 @@
       <h5>User</h5>
 
       <table class="table ">
-        <thead>
+        <thead aria-live="polite" aria-relevant="additions removals">
           {#if data.name}
             <tr>
               <th scope="col">Name: {data.name}</th>
@@ -117,7 +117,8 @@
 
       <h5>Transactions</h5>
 
-      <table class="table table-responsive-md table-hover">
+      <table class="table table-responsive-md table-hover"
+        aria-live="polite" aria-relevant="additions removals">
         <thead>
           <tr>
             <th style="width: 100px;" scope="col">ID</th>

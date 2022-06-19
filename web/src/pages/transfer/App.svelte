@@ -125,7 +125,7 @@
          title="Lowercase hexadecimal value is required"
          class="form-95" placeholder="From account ID">
 
-        <img src={shareImg} aria-role="presentation" width="80" style="height:auto; margin: 0 1rem;" />
+        <img src={shareImg} role="presentation" width="80" style="height:auto; margin: 0 1rem;" alt="money transfer icon" />
 
         <input bind:this={toInput} 
          name="to"
@@ -145,15 +145,15 @@
       </form>
 
       {#if displayError}
-        <div class="error">
-          <img src={errorImg} aria-role="presentation" />
+        <div class="error" role="alert">
+          <img src={errorImg} role="presentation" alt="error icon" />
           <p>{displayError}</p>
         </div>
       {/if}
 
       {#if data.transaction}
-        <div class="error">
-          <img src={successImg} aria-role="presentation" />
+        <div class="error" aria-live="polite" aria-relevant="additions removals">
+          <img src={successImg} role="presentation" alt="success icon" />
           <p>Transfer successful</p>
         </div>
         <p>transaction id: {data.transaction}</p>
