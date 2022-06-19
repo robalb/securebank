@@ -5,17 +5,15 @@
   import shareImg from '../../assets/transfer.png'
   import {baseApiUrl} from '../../utils/api.js'
   import {showCurrency, showDate, toCents} from '../../utils/conversions.js'
+
+  //form elements refs
   let fromInput;
   let toInput;
   let amountInput;
   let displayError = ""
-  let states = {
-    idle: "IDLE",
-    loading: "LOADING",
-    success: "SUCCESS",
-    fail: "FAIL"
-  }
-  let state = states.idle
+
+  //data fetched from the apis
+  let data = {}
 
   async function APICall(body, form){
     try{
@@ -35,8 +33,11 @@
         else if(resJson.detail == "transaction_failed"){
           displayError =  'Internal transaction error. Your request failed';
         }
+        else if(resJson.detail == "insufficient_credit"){
+          displayError =  'Insufficient credit to complete the transaction';
+        }
         else{
-          displayError =  'Your request failed, in a way that no one could predict. Are you happy?';
+          displayError =  'Your request failed, in a way that no one could predict.';
         }
       }
       //data succesfully fetched, let svelte reactivity handle it
@@ -69,15 +70,15 @@
     }
     //remove previous input errors
     displayError= ''
+    //remove previous data
+    data = {}
     //get form input data in json format, using modern DOM apis
     const dataRaw = new FormData(e.target);
-    const data = Object.fromEntries(dataRaw.entries());
+    const dataJson = Object.fromEntries(dataRaw.entries());
     //convert amount, since the APIs expect amount values expressed in cents
-    data.amount = toCents(data.amount)
+    dataJson.amount = toCents(dataJson.amount)
     //perform api call
-    APICall(data, e.target)
-
-
+    APICall(dataJson, e.target)
   }
 
   function showError(input){
@@ -150,21 +151,14 @@
         </div>
       {/if}
 
-      {#if state == states.idle || state == states.loading}
-      <div class="progress">
-        <div class="progress-bar "
-          role="progressbar" style="width: 0%"
-          aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
-          >
-        </div>
-      </div>
-      {/if}
-
-      {#if state == states.success}
+      {#if data.transaction}
         <div class="error">
           <img src={successImg} aria-role="presentation" />
-          <p>{displayError}</p>
+          <p>Transfer successful</p>
         </div>
+        <p>transaction id: {data.transaction}</p>
+        <p>sender now has a balance of: {showCurrency(data.balance_from)}</p>
+        <p>receiver now has a balance of: {showCurrency(data.balance_to)}</p>
       {/if}
 
       </div>

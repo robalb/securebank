@@ -36,5 +36,5 @@ export function showDate(timestamp){
 * @return integer - the input value converted to cents
 */
 export function toCents(value){
-  return 100
+  return Math.floor(value * 100)
 }

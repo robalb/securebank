@@ -25,7 +25,7 @@
           hexInputError =  'Internal transaction error. Your request failed';
         }
         else{
-          hexInputError =  'Your request failed, in a way that no one could predict. Are you happy?';
+          hexInputError =  'Your request failed, in a way that no one could predict.';
         }
       }
       //data succesfully fetched, let svelte reactivity handle it
