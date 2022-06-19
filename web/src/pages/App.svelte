@@ -164,7 +164,7 @@
   .container {
     margin: 2rem auto;
     padding: .5rem;
-    max-width: 1000px;
+    max-width: 1200px;
     box-sizing: border-box;
     width: 100%;
   }
@@ -192,6 +192,12 @@
     border-right: 2px solid darkgrey;
     table-layout: fixed;
     width: 100%;
+  }
+  @media(min-width: 1200px){
+    .table{
+      word-break: break-all;
+      table-layout: initial;
+    }
   }
   .table td{
     border-top: 2px solid lightgrey;
