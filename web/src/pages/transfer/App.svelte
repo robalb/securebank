@@ -3,6 +3,8 @@
   import errorImg from '../../assets/msg_error-0.png'
   import successImg from '../../assets/check-0.png'
   import shareImg from '../../assets/transfer.png'
+  import {baseApiUrl} from '../../utils/api.js'
+  import {showCurrency, showDate, toCents} from '../../utils/conversions.js'
   let fromInput;
   let toInput;
   let amountInput;
@@ -14,6 +16,42 @@
     fail: "FAIL"
   }
   let state = states.idle
+
+  async function APICall(body, form){
+    try{
+      let res = await fetch(baseApiUrl + 'transfer/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+      let resJson = await res.json()
+      // Handle json errors
+      if(!res.ok){
+        if(resJson.detail == "invalid_id"){
+          displayError =  'One of the account IDs you entered is not registered in the system';
+        }
+        else if(resJson.detail == "transaction_failed"){
+          displayError =  'Internal transaction error. Your request failed';
+        }
+        else{
+          displayError =  'Your request failed, in a way that no one could predict. Are you happy?';
+        }
+      }
+      //data succesfully fetched, let svelte reactivity handle it
+      else{
+        form.reset()
+        data = resJson
+        console.log(data)
+      }
+    }
+    catch(e){
+      displayError = 'Something went wrong. The APIs are unreachable';
+      console.error(e)
+    }
+
+  }
 
   function handleSubmit(e){
     //bypass native element input validation
@@ -29,6 +67,16 @@
         return
       }
     }
+    //remove previous input errors
+    displayError= ''
+    //get form input data in json format, using modern DOM apis
+    const dataRaw = new FormData(e.target);
+    const data = Object.fromEntries(dataRaw.entries());
+    //convert amount, since the APIs expect amount values expressed in cents
+    data.amount = toCents(data.amount)
+    //perform api call
+    APICall(data, e.target)
+
 
   }
 
@@ -71,6 +119,7 @@
       <form novalidate on:submit|preventDefault={handleSubmit}>
       <div class="row">
         <input bind:this={fromInput} 
+         name="from"
          type="text" required pattern="[a-f\d]*" maxLength="20" minLength="20"
          title="Lowercase hexadecimal value is required"
          class="form-95" placeholder="From account ID">
@@ -78,12 +127,14 @@
         <img src={shareImg} aria-role="presentation" width="80" style="height:auto; margin: 0 1rem;" />
 
         <input bind:this={toInput} 
+         name="to"
          type="text" required pattern="[a-f\d]*" maxLength="20" minLength="20"
          title="Lowercase hexadecimal value is required"
          class="form-95" placeholder="To account ID">
        </div>
        <div class="row">
           <input bind:this={amountInput}
+           name="amount"
            type="number" required min="0" step=".01"
            title="a numeric value is required"
            class="form-95" placeholder="amount &euro;">

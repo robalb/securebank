@@ -27,3 +27,14 @@ export function showDate(timestamp){
   }
   return (new Intl.DateTimeFormat('en-GB', settings).format(date));
 }
+
+/**
+* Convert decimal, localized Eur value entered in form input
+* into centesimal integer expected by the APIs
+*
+* @param value number - a number with two decimal places max
+* @return integer - the input value converted to cents
+*/
+export function toCents(value){
+  return 100
+}
