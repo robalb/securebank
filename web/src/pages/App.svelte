@@ -1,5 +1,6 @@
 <script>
   import Layout from '../components/Layout.svelte'
+  import TdReceiver from '../components/TdReceiver.svelte'
   import errorImg from '../assets/msg_error-0.png'
   import {baseApiUrl} from '../utils/api.js'
   import {showCurrency, showDate} from '../utils/conversions.js'
@@ -121,10 +122,10 @@
         aria-live="polite" aria-relevant="additions removals">
         <thead>
           <tr>
-            <th style="width: 100px;" scope="col">ID</th>
+            <th style="" scope="col">ID</th>
             <th scope="col">Sender</th>
             <th scope="col">Receiver</th>
-            <th style="width: 100px;"scope="col">Amount</th>
+            <th style=""scope="col">Amount</th>
             <th  scope="col">Time</th>
           </tr>
         </thead>
@@ -134,7 +135,9 @@
             <tr class="{t.first && 'bold'}">
               <td>{t.id}</td>
               <td>{t.sender_id}</td>
-              <td>{t.receiver_id}</td>
+              <td>
+                <TdReceiver uid={t.receiver_id} amount={t.amount} />
+              </td>
               <td>{showCurrency(t.amount)}</td>
               <td>{showDate(t.time)}</td>
             </tr>
