@@ -1,19 +1,16 @@
 services:
   #Web service
-  nginx:
-    build: 
-      context: .
-      dockerfile: ./docker/web/Dockerfile
-    ports:
-      - 5000:80
-    depends_on:
-      - fastapi
+  # There is no web service! For development you will need to run the Vite
+  # devserver locally. The vite devserver is already configured to use the apis exposed by
+  # this docker-compose.dev.yml file. Detailed instructions are given in /web
 
   #FastAPI Service
   fastapi:
     build:
-      context: .
-      dockerfile: ./docker/api/Dockerfile
+      context: ./docker/api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./api/app:/code/app
     ports:
       - 8080:8080
     depends_on:
