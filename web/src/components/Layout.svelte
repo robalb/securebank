@@ -15,9 +15,9 @@
     {
       slug: "/transfer/", name: "Transfer"
     },
-    {
-      slug: "/account/", name: "User Management"
-    },
+    // {
+    //   slug: "/account/", name: "User Management"
+    // },
   ]
 </script>
 
@@ -40,6 +40,11 @@
                     </a>
                 </li>
               {/each}
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/docs">
+                      APIdocs
+                    </a>
+                </li>
             </ul>
         </div>
 </nav>
