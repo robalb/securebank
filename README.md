@@ -27,7 +27,7 @@ https://github.com/robalb/securebank
 
 ## Installazione
 
-vedere il file (ISTRUZIONI.md)[./ISTRUZIONI.md]
+vedere il file [ ISTRUZIONI.md ]( ./ISTRUZIONI.md )
 
 ## sviluppo in locale
 
