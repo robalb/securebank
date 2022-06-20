@@ -1,15 +1,8 @@
 TODO
-- self host bootstrap and win95
-- add link to docs in web
-- add proxypass to fastapi docs in nginx (both old and new fastapi docs)
-
-- add k8s manifests
-
-- write install instructions and dev instructions
-
-- write readme, link apidocs yaml
-
- docker-compose -f docker-compose.dev.yml up --build
+- add meta tags, and set width and heigt of all images to get confetti on lighthouse
+- complete readme
+- add link to docs in web - improve? add revproxy? boh
+- add k8s manifests, host demo on cluster
 
 ## architettura
 
@@ -86,6 +79,7 @@ mariadb seguendo le istruzioni in
 
 
 ## stile
+
 
 Per lo stile del sito ho usato bootstrap con il seguente tema vintage:
 
