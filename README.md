@@ -25,20 +25,9 @@ con le opportune modifiche, tramite kubernetes. Questa consegna non tratta
 il tema kubernetes, per quello vedere la repository completa del progetto
 https://github.com/robalb/securebank
 
-## esecuzione
+## Installazione
 
-prerequisiti: docker e docker-compose.
-testato su windows 10 e ubuntu 22, usando le ultime versioni stabili di Docker e Docker-compose
-
-- con il vostro terminale, navigate nella cartella principale del progetto,
-  quella contenente questo README che state leggendo.
-- eseguite `docker-compose up --build`
-
-Verranno creati tre servizi:
-
-- http://localhost:5000/ un webserver Nginx che serve il sito
-- http::/localhost:8080/ il server delle api
-- locahost:3306 il database mariadb
+vedere il file (ISTRUZIONI.md)[./ISTRUZIONI.md]
 
 ## sviluppo in locale
 
