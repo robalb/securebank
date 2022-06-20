@@ -1,6 +1,8 @@
 <script>
   export let currentPage;
   import logo from '../assets/chart1-4.png'
+  import '../assets/bootstrap.css'
+  import '../assets/win95.css'
   import Footer from './Footer.svelte'
   let navOpen = false;
 
@@ -15,9 +17,6 @@
     {
       slug: "/transfer/", name: "Transfer"
     },
-    // {
-    //   slug: "/account/", name: "User Management"
-    // },
   ]
 </script>
 
@@ -25,7 +24,7 @@
         <a class="navbar-brand" href="/">
             <img src={logo} alt="Logo"> SecureBank</a>
         <button on:click={togglenav} 
-          class="navbar-toggler" type="button" aria-controls="navbar-dropdown"
+          class="navbar-toggler " type="button" aria-controls="navbar-dropdown"
           aria-expanded={navOpen} aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -52,13 +51,3 @@
 <slot />
 </main>
 <Footer/>
-
-<style>
-  /*
-     This component is somehow CURSED: any kind of
-     style i write here won't be applied.
-     It worked during development, then it suddenly broke,
-     and nothing seems to fix it.
-  */
-</style>
-
