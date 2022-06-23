@@ -42,7 +42,7 @@ Questa pagina elenca gli endpoint esistenti e le loro specifiche, e permette
 di testarli in tempo reale tramite un' interfaccia web.
 
 In alternativa la stessa documentazione è disponibile in formato OpenAPI nel seguente
-file json [apidocs.json](./apidocs.json)
+file json [openapi.json](./openapi.json)
 
 La registrazione include un campo password opzionale, e se inserita questa viene salvata nel database
 in hash argon2Id. Tuttavia le api non implementano nessun sistema di access control. Ho ritenuto
