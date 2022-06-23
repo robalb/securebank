@@ -1,10 +1,13 @@
-# istruzioni per l'installazione
+# requisiti per l'installazione
 
 Requisiti: Docker e Docker-compose.
 é sufficente installare [Docker desktop](https://docs.docker.com/get-docker/)
 per ottenerli.
 
 Testato su windows 10 e ubuntu 22, usando le ultime versioni stabili di Docker e Docker-compose.
+
+
+# istruzioni per l'installazione
 
 - con il vostro terminale, navigate nella cartella principale del progetto,
   quella contenente questo file ISTRUZIONI che state leggendo.
@@ -19,7 +22,7 @@ Verranno creati tre servizi:
 
 ## Info utili
 
-La documentazione open api interattiva è situata all'indirizzo
+La documentazione OpenApi interattiva è situata all'indirizzo
 http://localhost:8080/docs 
 Questa pagina elenca gli endpoint esistenti e le loro specifiche, e permette
 di testarli in tempo reale tramite un' interfaccia web.
