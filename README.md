@@ -1,6 +1,3 @@
-TODO
-- add meta tags, and set width and heigt of all images to get confetti on lighthouse
-
 # Info
 
 Autore: Alberto Ventafridda 866135
