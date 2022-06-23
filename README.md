@@ -4,7 +4,15 @@ TODO
 - add link to docs in web - improve? add revproxy? boh
 - add k8s manifests, host demo on cluster
 
-## architettura
+# Installazione
+
+vedere il file [ ISTRUZIONI.md ]( ./ISTRUZIONI.md )
+
+
+
+# descrizione del progetto
+
+### architettura
 
 L'architetttura del progetto si può riassumere nei tre seguenti elementi:
 
@@ -18,11 +26,60 @@ con le opportune modifiche, tramite kubernetes. Questa consegna non tratta
 il tema kubernetes, per quello vedere la repository completa del progetto
 https://github.com/robalb/securebank
 
-## Installazione
+### api
 
-vedere il file [ ISTRUZIONI.md ]( ./ISTRUZIONI.md )
+Queste API implementano in dettaglio le
+specifiche fornite nella consegna, senza endpoint aggiuntivi o sostanziali
+modifiche.
 
-## sviluppo in locale
+Una documentazione dettagliata e interattiva delle api è disponibile all'indirizzo
+http://localhost:8080/docs (è necessario lanciare il progetto seguendo le 
+[istruzioni](./ISTRUZIONI.md).)
+
+In alternativa la stessa documentazione è disponibile in formato OpenAPI nel seguente
+file json [apidocs.json](./apidocs.json)
+
+La registrazione include un campo password opzionale, e se inserita questa viene salvata nel database
+in hash argon2Id. Tuttavia le api non implementano nessun sistema di access control. Ho ritenuto
+che un sistema di autenticazione avrebbe interferito troppo con le specifiche richieste, e avrebbe
+reso difficile il testing e la valutazione delle api
+
+
+
+### web
+
+Il frontend è stato realizzato usando il framework Svelte,
+ che offre (come tutti i framework javascript moderni)
+un sistema reattivo e la possibilità di organizzare il prorio sistema in componenti.
+Il vantaggio di svelte sta nel fatto che il framework non complica l'interazione
+diretta con il DOM, facilitando addiruttura l'uso di api come
+[Constraint validation api](https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation) o
+[Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
+
+Il risultato è stato un sistema accessibile, facilmente internazionalizzabile,
+che raggiunge un punteggio di 100/100 in fatto di accessibilità e best practices
+su google lighthouse.
+
+Per lo stile del sito ho usato bootstrap con il seguente tema vintage:
+
+    WIN95.CSS
+    https://github.com/AlexBSoft/win95.css
+    Author: Alex B (alex-b.me)
+    License: MIT
+
+Il tema consiste in un singolo file css, che ho lievemente modificato per essere
+ piu accessibile e incluso tra i miei assets in `/web/src/assets`
+
+Sempre tra gli asset statici ho incluso alcune icone e il file css di bootstrap,
+per evitare di dipendere da un CDN.
+
+
+
+# sviluppo in locale
+
+> **Note**
+> Questa sezione elenca le istruzioni per lo sviluppo in locale del progetto.
+> Tutto quello che segue non è rilevante per la valutazione del progetto.
 
 ci sono tre aree principali di sviluppo: web, api, e database.
 Quelle che seguono sono le istruzioni per lo sviluppo di ciascuna area.
@@ -77,36 +134,3 @@ Il file sql esportato va modificato per essere compatibile con
 mariadb seguendo le istruzioni in
 (/dbmodel/workbench-export-instructions)[/dbmodel/workbench-export-instructions.md]
 
-
-## stile
-
-
-Per lo stile del sito ho usato bootstrap con il seguente tema vintage:
-
-    WIN95.CSS
-    https://github.com/AlexBSoft/win95.css
-    Author: Alex B (alex-b.me)
-    License: MIT
-
-Il tema consiste in un singolo file css, che ho lievemente modificato per essere
- piu accessibile e incluso tra i miei assets in `/web/src/assets`
-
-Sempre tra gli asset statici ho incluso alcune icone e il file css di bootstrap,
-per evitare di dipendere da un CDN.
-
-## api
-
-La reistrazione include un campo password opzionale, e se inserita questa viene salvata nel database
-in hash argon2Id. Tuttavia le api non implementano nessun sistema di access control. Ho ritenuto
-che un sistema di autenticazione avrebbe interferito troppo con le specifiche richieste, e avrebbe
-reso difficile il testing e la valutazione delle api
-
-
-Queste API implementano in dettaglio le
-specifiche fornite nella consegna, con l'unica
-differenza nella registrazione, che include un campo password opzionale.
-
-Se inserita, la password opzionale viene salvata nel database
-in hash argon2Id. Tuttavia le API non implementano nessun sistema di access control. Ho ritenuto
-che un sistema di autenticazione avrebbe interferito troppo con le specifiche richieste, e avrebbe
-reso difficile il testing e la valutazione delle api
