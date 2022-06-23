@@ -1,8 +1,13 @@
 TODO
 - add meta tags, and set width and heigt of all images to get confetti on lighthouse
-- complete readme
-- add link to docs in web - improve? add revproxy? boh
-- add k8s manifests, host demo on cluster
+- password opzionale
+
+# Info
+
+Autore: Alberto Ventafridda 866135
+
+Repository del progetto: https://github.com/robalb/securebank
+
 
 # Installazione
 
@@ -16,9 +21,9 @@ vedere il file [ ISTRUZIONI.md ]( ./ISTRUZIONI.md )
 
 L'architetttura del progetto si può riassumere nei tre seguenti elementi:
 
-- web: framework Svelte.js, con vite.js come bundler e Nginx come server di produzione
-- api: Python, con il framework fastAPI
-- database: Mariadb, modellato usando SQLWorkbench
+- **web**: framework Svelte.js, con vite.js come bundler e Nginx come server di produzione
+- **api**: Python, con il framework fastAPI
+- **database**: Mariadb, modellato usando SQLWorkbench
 
 Questi tre elementi sono associati a tre rispettive immagini Docker
 che possono essere utilizate tramite i file docker-compose forniti oppure,
@@ -28,13 +33,18 @@ https://github.com/robalb/securebank
 
 ### api
 
-Queste API implementano in dettaglio le
+> http://localhost:8080/
+> http://localhost:8080/docs
+
+Le API implementano in dettaglio le
 specifiche fornite nella consegna, senza endpoint aggiuntivi o sostanziali
 modifiche.
 
 Una documentazione dettagliata e interattiva delle api è disponibile all'indirizzo
-http://localhost:8080/docs (è necessario lanciare il progetto seguendo le 
+http://localhost:8080/docs (è necessario lanciare prima il progetto seguendo le 
 [istruzioni](./ISTRUZIONI.md).)
+Questa pagina elenca gli endpoint esistenti e le loro specifiche, e permette
+di testarli in tempo reale tramite un' interfaccia web.
 
 In alternativa la stessa documentazione è disponibile in formato OpenAPI nel seguente
 file json [apidocs.json](./apidocs.json)
@@ -47,6 +57,8 @@ reso difficile il testing e la valutazione delle api
 
 
 ### web
+
+> http://localhost:5000/
 
 Il frontend è stato realizzato usando il framework Svelte,
  che offre (come tutti i framework javascript moderni)
@@ -73,6 +85,12 @@ Il tema consiste in un singolo file css, che ho lievemente modificato per essere
 Sempre tra gli asset statici ho incluso alcune icone e il file css di bootstrap,
 per evitare di dipendere da un CDN.
 
+### database
+
+> localhost:3306 user:test password: test
+
+Per accedere al database, usare le credenziali salvate nel file `.env`, ovvero
+user: test password: test
 
 
 # sviluppo in locale

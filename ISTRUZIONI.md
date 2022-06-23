@@ -1,10 +1,10 @@
 # istruzioni per l'installazione
 
-prerequisiti: Docker e Docker-compose.
+Requisiti: Docker e Docker-compose.
 é sufficente installare [Docker desktop](https://docs.docker.com/get-docker/)
 per ottenerli.
 
-Testato su windows 10 e ubuntu 22, usando le ultime versioni stabili di Docker e Docker-compose
+Testato su windows 10 e ubuntu 22, usando le ultime versioni stabili di Docker e Docker-compose.
 
 - con il vostro terminale, navigate nella cartella principale del progetto,
   quella contenente questo file ISTRUZIONI che state leggendo.
