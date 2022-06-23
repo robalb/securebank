@@ -26,16 +26,18 @@ async def get_all_accounts():
 class NewAccount(BaseModel):
     name: str
     surname: str
-    password: str
+    password: Union[str, None] = None
 
 @router.post("/")
 async def create_account(account: NewAccount):
     #generate id
     accountid = secrets.token_hex(10)
     #generate password hash - argon2ID
+    if account.password is None:
+        account.password = secrets.token_hex(20)
     ph = PasswordHasher()
     password_hash = ph.hash(account.password)
-
+    #register the user
     with Cursor() as cur:
         try:
             cur.execute("""
@@ -66,10 +68,6 @@ class PaymentAmount(BaseModel):
 
 @router.post("/{accountid}")
 async def transfer_cash(accountid: constr(min_length=20, max_length=20), amount: PaymentAmount):
-    # raise an error on amout = 0
-    if amount.amount == 0 and False:
-        raise HTTPException(status_code=422, detail=[{"msg":"invalid amount"}])
-
     #set the transaction description in a machine readable format
     description = "direct_payment"
     if amount.amount < 0:

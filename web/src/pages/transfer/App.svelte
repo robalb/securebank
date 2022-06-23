@@ -125,7 +125,7 @@
          title="Lowercase hexadecimal value is required"
          class="form-95" placeholder="From account ID">
 
-        <img src={shareImg} role="presentation" width="80" style="height:auto; margin: 0 1rem;" alt="money transfer icon" />
+        <img src={shareImg} role="presentation" width=32 height=32 style="height:auto; margin: 0 1rem;" alt="money transfer icon" />
 
         <input bind:this={toInput} 
          name="to"

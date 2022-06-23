@@ -4,8 +4,8 @@
   </script>
   <footer>
   <p>This website requires a modern browser with JavaScript support</p>
-  <img src={netscape} width=30 alt="msie logo" />
-  <img src={explorer} width=30 alt="netscape logo" />
+  <img src={netscape} width=30 height=30 alt="msie logo" />
+  <img src={explorer} width=30 height=30 alt="netscape logo" />
   </footer>
 
   <style>

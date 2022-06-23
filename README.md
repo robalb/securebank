@@ -1,6 +1,5 @@
 TODO
 - add meta tags, and set width and heigt of all images to get confetti on lighthouse
-- password opzionale
 
 # Info
 
@@ -34,7 +33,6 @@ https://github.com/robalb/securebank
 ### api
 
 > http://localhost:8080/
-> http://localhost:8080/docs
 
 Le API implementano in dettaglio le
 specifiche fornite nella consegna, senza endpoint aggiuntivi o sostanziali

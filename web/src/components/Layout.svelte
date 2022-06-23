@@ -22,7 +22,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-95 ">
         <a class="navbar-brand" href="/">
-            <img src={logo} alt="Logo"> SecureBank</a>
+            <img src={logo} alt="Logo" width="32" height="32" > SecureBank</a>
         <button on:click={togglenav} 
           class="navbar-toggler " type="button" aria-controls="navbar-dropdown"
           aria-expanded={navOpen} aria-label="Toggle navigation">

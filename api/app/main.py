@@ -15,7 +15,7 @@ app = FastAPI(
     version="0.0.1",
     contact={
       "name": "Alberto Ventafridda",
-      "url": "https://halb.it"
+      "url": "https://github.com/robalb/securebank"
     },
 )
 
