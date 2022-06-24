@@ -9,6 +9,8 @@ I decided to implement it using the following technologies
 - **api**: Python, with FastAPI
 - **database**: Mariadb
 
+As for the design, i went for a win95 aesthetic as you can see
+
 <p align="center">
 <img src="./docs/wide.png" width="600px" height="auto" />
 <img src="./docs/fireworks.png" width="190px" height="auto" />

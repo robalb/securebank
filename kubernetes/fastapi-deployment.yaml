@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: fastapi
+  name: fastapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: fastapi
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: fastapi
+    spec:
+      containers:
+        - env:
+            - name: MARIADB_DATABASE
+            - name: MARIADB_HOST
+              value: mariadb
+            - name: MARIADB_PASSWORD
+            - name: MARIADB_USER
+          image: ghcr.io/robalb/securebank-api:latest
+          name: fastapi
+          ports:
+            - containerPort: 8080
+          resources: {}
+      restartPolicy: Always
+status: {}
