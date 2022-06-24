@@ -13,9 +13,6 @@ As for the design, i went for a win95 aesthetic as you can see. It
 started as a joke,  but the win95 design system turned out to be pretty nice
 to work with, and very accessible.
 
-
-As for the design, i went for a win95 aesthetic as you can see
-
 <p align="center">
 <img src="./docs/wide.png" width="400px" height="auto" />
   <img src="./docs/wide2.png" width="400px" height="auto" />
