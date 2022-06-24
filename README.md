@@ -17,5 +17,5 @@ to work with, and very accessible.
 <p align="center">
 <img src="./docs/wide.png" width="400px" height="auto" />
   <img src="./docs/wide2.png" width="400px" height="auto" />
-<img src="./docs/fireworks.png" width="490px" height="auto" />
+<img src="./docs/fireworks.png" width="400px" height="auto" />
 </p>
