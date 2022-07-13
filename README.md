@@ -1,8 +1,8 @@
 This is a project for the distributed systems course i took at uniMib.
-It's supposed to be a mock banking system with a REST api, relational database
+It's a mock banking system with a REST api, relational database
 and rich web application.
 
-I decided to implement it using the following technologies
+The assignment didn't enforce the use of a specific technology, so I decided to use the following stack:
 
 - **web**: Svelte.js framework with vite.js as bundler and devserver. Nginx as production server
 - **api**: Python, with FastAPI
